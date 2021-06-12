@@ -31,6 +31,7 @@ var btnMic = document.getElementById('btnMic');
 
 function appreciate(){
 	console.log("you're welcome");
+	console.log("code has successfully changed!.");
 	isAppreciate = true;
 }
 
