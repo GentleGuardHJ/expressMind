@@ -50,7 +50,7 @@ function toggleMic(){
 	//안냥 깃허브 FAQ
 	//https://github.com/TalAter/annyang/blob/master/docs/FAQ.md
 	annyang.setLanguage('ko');
-	annyang.setLanguage('en-GB');
+	/*annyang.setLanguage('en-GB');
 	annyang.setLanguage('en-US');
 	annyang.setLanguage('es-ES');
 	annyang.setLanguage('de-DE');
@@ -58,7 +58,7 @@ function toggleMic(){
 	annyang.setLanguage('zh-CN');
 	annyang.setLanguage('fr-FR');
 	annyang.setLanguage('it-IT');
-
+	*/
 	const ENGLISH = {
 		'thank you': appreciate,
 		'thanks':appreciate,
