@@ -49,9 +49,9 @@ function toggleMic(){
 	//우리말을 언어로 설정한 상태에서 영어 또한 인식하는 것을 확인했다.
 	//안냥 깃허브 FAQ
 	//https://github.com/TalAter/annyang/blob/master/docs/FAQ.md
+	annyang.setLanguage('ko');
 	annyang.setLanguage('en-GB');
 	annyang.setLanguage('en-US');
-	annyang.setLanguage('ko');
 	annyang.setLanguage('es-ES');
 	annyang.setLanguage('de-DE');
 	annyang.setLanguage('ja');
