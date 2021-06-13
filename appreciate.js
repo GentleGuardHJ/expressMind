@@ -1,12 +1,4 @@
 /*
-	첫 번째 생각 : 미리 정의한 각종 언어로 표현한 고마워를 배열에 저장하고
-	무작위로 출력하기. ==> 당첨!
-
-	두 번째 생각 : 브라우저 언어 설정 값?
-
-	세 번째 생각 : 위치 정보? -> 이건 별로..... 
-*/
-/*
 	0 ~ 7까지
 	일본어 : ありがとうございます
 	중국어 : 謝謝
@@ -21,7 +13,7 @@
 function randomThankyou(){
 	//0 ~ 7
 	const serial = Math.floor(Math.random() * 8);
-
+	//감사인사를 표시할 영역
 	var gratitude = document.querySelector(".thankUCard");
 
 	switch(serial){
@@ -62,8 +54,5 @@ function randomThankyou(){
 
 		alert("이런 내 맘 모르고 너무해 너무해TT");
 	}
-
-	//randomThankyou();
-
 
 }

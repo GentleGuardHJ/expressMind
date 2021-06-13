@@ -9,6 +9,16 @@
 	</head>
 	<body>
 
+		<div class="list-wraper">
+			<h3 style="display: inline-block;">언어 선택 :</h3> 
+			<select name='language' id="language" onchange="language_selected()">
+				<option value='korean' selected>자랑스러운 우리말</option>
+				<option value='japanese'>日本語</option>
+				<option value='chinese'>汉语</option>
+				<option value="others">others</option>
+			</select>
+		</div>
+
 		<div class="contents-wraper">
 			<div class="live-icon"></div><p class="text">ON AIR</p>
 			<br>
@@ -19,11 +29,6 @@
 		
 
 	</body>
-		<script src="annyang.min.js"></script>
+		<script src="annyang.js"></script>
 		<script src="gratitude.js"></script>
 </html>
-
-<!--
-	시작 - 음성 입력 - 음성입력 완료(감사인사를 했을 때)
-
--->

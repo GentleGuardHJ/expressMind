@@ -1,7 +1,6 @@
 @font-face{
   font-family: defaultFont;
   src : url(href="./fonts/SpoqHanSansNeo");
-
 }
 
 *{
@@ -41,6 +40,10 @@ body {
   left: 5px;
   top: -4px;
   font-size: 6em;
+}
+
+.list-wraper{
+  float: right;
 }
 
 .contents-wraper{

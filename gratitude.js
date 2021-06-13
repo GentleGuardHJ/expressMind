@@ -1,11 +1,3 @@
-/*
-	마이크 버튼을 눌렀을 때, 녹음이 시작되고 다시 누르면 녹음이 끝난다. -> 고맙다는 인사가 포함되어 있으면, 화면이 짜잔 하고 바뀐다.
-
-	버튼과 배경 디자인 바꾸고 다양한 언어를 지원하도록 만들면 끄읕!
-
-	버튼을 눌렀을 때, 음성 입력 상태 변환과 UI에 변화가 일어나야 한다.
-*/
-
 //버튼에 표시할 문자열이다.
 const MIC_STATUS_OFF = "마이크가 꺼져있어요.";
 const MIC_STATUS_ON = "경청하는 중이예요!.";
@@ -24,85 +16,209 @@ var onAirText = document.querySelector('.text');
 //버튼 요소
 var btnMic = document.getElementById('btnMic');
 
-/*
-	버튼을 누를 때마다 안냥 객체를 새로 만들어서 isListening()이 항상 거짓을 반환한다.
-	아주 그냥 항등식이 따로 없네~
-*/
+//<select>태그의 onchange 콜백 함수이다. 언어 설정 값을 반영한다.
+function language_selected(){
+
+	//언어 설정 값
+	var box = document.getElementById('language');
+
+	var idx = box.selectedIndex;
+
+	//annyang.js에 기본값으로 우리말을 설정했다.
+	var language = 'ko';
+
+	switch(idx){
+		case 0://우리말
+			language = 'ko';
+			break;
+		case 1://일본어
+			language = 'ja';
+			break;
+		case 2://중국어
+			language = 'zh-CN';
+			break;
+			/*others : 알파벳으로 표기하는 언어*/
+		default:
+			language = 'en-US';
+			break;
+	}
+
+	return language;
+}
 
 function appreciate(){
+	//명령으로 정의한 감사인사를 인식했을 때, 논리형 변수의 값을 참으로 할당한다.
 	console.log("you're welcome");
-	console.log("code has successfully changed!.");
 	isAppreciate = true;
 }
 
 function toggleMic(){
 
+	var language = language_selected();
 
 	if(hasTurnedOn == false){
 		if(annyang){
 			console.log("annyang : 안냥~");
-			
-		/*
-			서로 다른 언어로 표현된 감사인사이기 때문에 안냥은 각 인사말을 하나의 '감사 인사'가 아닌 다른 단어로 인식할 것이다.
-			따라서 commands객체를 통해 명령을 지정할 수 없다. -> 자체 번역 기능을 내장하고 있으면 가능하다!. TT
-		*/
+	
+			//명령 적재 상태 확인
+			annyang.debug();
 
-	//우리말을 언어로 설정한 상태에서 영어 또한 인식하는 것을 확인했다.
-	//안냥 깃허브 FAQ
-	//https://github.com/TalAter/annyang/blob/master/docs/FAQ.md
-	annyang.setLanguage('ko');
-	/*annyang.setLanguage('en-GB');
-	annyang.setLanguage('en-US');
-	annyang.setLanguage('es-ES');
-	annyang.setLanguage('de-DE');
-	annyang.setLanguage('ja');
-	annyang.setLanguage('zh-CN');
-	annyang.setLanguage('fr-FR');
-	annyang.setLanguage('it-IT');
-	*/
+			console.log("현재 설정한 언어 : "+language);
+	
+			annyang.setLanguage(language);
+
 	const ENGLISH = {
+
+		/*single phrase*/
 		'thank you': appreciate,
 		'thanks':appreciate,
-		'I appreciate':appreciate,
-		'generous of':appreciate
+		'appreciate':appreciate,
+		'generous of':appreciate,
+
+		/*some words in front of the command*/
+		'*front thank you': appreciate,
+		'*front thanks':appreciate,
+		'*front appreciate':appreciate,
+		'*front generous of':appreciate,
+		
+		/*some words behind the command*/
+		'thank you *end': appreciate,
+		'thanks *end':appreciate,
+		'appreciate *end':appreciate,
+		'generous of *end':appreciate,
+
+		/*if command is in middle of sentence*/
+		'*front thank you *end': appreciate,
+		'*front thanks *end':appreciate,
+		'*front appreciate *end':appreciate,
+		'*front generous of *end':appreciate
+		
 	};
 
 	 const KOREAN = {
+		 /*single phrase*/
 		'고맙습니다': appreciate,
 		'감사합니다':appreciate,
 		'고마워':appreciate,
 		'감사해':appreciate,
 		'고마움':appreciate,
 		'감사':appreciate,
-		'땡큐':appreciate
+		'땡큐':appreciate,
+
+		/*some words in front of the command*/
+		'*front 고맙습니다': appreciate,
+		'*front 감사합니다':appreciate,
+		'*front 고마워':appreciate,
+		'*front 감사해':appreciate,
+		'*front 고마움':appreciate,
+		'*front 감사':appreciate,
+		'*front 땡큐':appreciate,
+
+		/*some words in behind the command*/
+		'고맙습니다 *end': appreciate,
+		'감사합니다 *end':appreciate,
+		'고마워 *end':appreciate,
+		'감사해 *end':appreciate,
+		'고마움 *end':appreciate,
+		'감사 *end':appreciate,
+		'땡큐 *end':appreciate,
+
+		/*if command is in middle of sentence*/
+		'*front thank you *end': appreciate,
+		'*front thanks *end':appreciate,
+		'*front appreciate *end':appreciate,
+		'*front generous of *end':appreciate
 	};
 
 	const SPANISH = {
-		'gracias':appreciate
+		/*하나*/
+		'gracias':appreciate,
+
+		/*앞*/
+		'*front gracias':appreciate,
+
+		/*뒤*/
+		'gracias *end':appreciate,
+
+		/*가운데*/
+		'*front gracias *end':appreciate
 	};
 
 	const GERMAN = {
+		/*한 개의 구*/
 		'Vielen Dank':appreciate,
-		'Danke':appreciate
+		'Danke':appreciate,
+
+		/*앞으로*/
+		'*front Vielen Dank':appreciate,
+		'*front Danke':appreciate,
+
+		/*뒤로*/
+		'Vielen Dank *end':appreciate,
+		'Danke *end':appreciate,
+
+		/*양쪽으로*/
+		'*front Vielen Dank *end':appreciate,
+		'*front Danke *end':appreciate
 	};
 
 	const JAPANESE = {
-		'ありがとうございます':appreciate
+		/*하나*/
+		'ありがとうございます':appreciate,
+
+		/*앞*/
+		'*front ありがとうございます':appreciate,
+
+		/*뒤*/
+		'ありがとうございます *end':appreciate,
+
+		/*가운데*/
+		'*front ありがとうございます *end':appreciate
 	};
 
 	const MANDARIN = {
-		'謝謝':appreciate
+		/*하나*/
+		'謝謝':appreciate,
+
+		/*앞*/
+		'*front 謝謝':appreciate,
+
+		/*뒤*/
+		'謝謝 *end':appreciate,
+
+		/*가운데*/
+		'*front 謝謝 *end':appreciate
 	};
 	
 	const FRENCH = {
-		'Merci':appreciate
+		/*하나 */
+		'Merci':appreciate,
+
+		/*앞*/
+		'*front Merci':appreciate,
+
+		/*뒤*/
+		'Merci *end':appreciate,
+
+		/*가운데*/
+		'*front Merci *end':appreciate
 	};
 	
 	const ITALIAN = {
-		'Grazie':appreciate
+		/*하나 */
+		'Grazie':appreciate,
+
+		/*앞*/
+		'*front Grazie':appreciate,
+
+		/*뒤*/
+		'Grazie *end':appreciate,
+
+		/*가운데*/
+		'*front Grazie *end':appreciate,
 	};
 
-
+	//각 언어로 정의한 명령(감사인사) 적재
 	annyang.addCommands(KOREAN);
 	annyang.addCommands(ENGLISH);		
 	annyang.addCommands(SPANISH);
